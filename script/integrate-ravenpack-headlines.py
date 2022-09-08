@@ -4,9 +4,9 @@
 Replace the sha256 hashes with the correct RavenPact headlines.
 
 Usage:
-    Copy `headlines_with_sentiment_scores_cogn2022.xlsx` and a file with the
+    Copy `news_headlines_and_sentiment_cogn2022.xlsx` and a file with the
     headlines retrieved from RavenPact (`headlines.xlsx`) into the
-    script directory.
+    current directory.
 
     The `integrate-ravenpack-headlines.py` script will then replace hashes
     for which a headline could be found with the corresponding headline.
@@ -14,9 +14,24 @@ Usage:
 
 from openpyxl import load_workbook
 from hashlib import sha256
+from pathlib import Path
+from sys import exit
 
-dataset_fname = 'headlines_with_sentiment_scores_cogn2022.xlsx'
+dataset_fname = 'news_headlines_and_sentiment_cogn2022.xlsx'
 headline_fname = 'headlines.xlsx'
+
+#
+# Verify that all necessary files are available
+#
+if not Path(dataset_fname).is_file():
+    print(f'Cannot find the datset file `{dataset_fname}` in the current '
+          f'working directory.')
+    exit(-1)
+
+if not Path(headline_fname).is_file():
+    print(f'Cannot find the headlines file `{headline_fname}` in the current '
+          f'working directory.')
+    exit(-1)
 
 #
 # create the mapping between headlines and hashes
